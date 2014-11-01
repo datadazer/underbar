@@ -110,6 +110,15 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqResult = [];
+    var uniqObj = {};
+    for(var i = 0; i < array.length; i++){
+     uniqObj[array[i]]=0;
+    }
+    for (i in uniqObj){
+      uniqResult.push(i);
+    }
+    return uniqResult;
   };
 
 
