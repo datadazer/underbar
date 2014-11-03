@@ -184,15 +184,22 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    var reduceResult = 0;
     if(accumulator == undefined){
       var initVal = collection[0];
     }
     else{
       initVal = accumulator;
     }
-    var reduceResult = 0;
-    for(var i = 0; i < collection.length; i++,initVal = 0){
-      reduceResult += (iterator(initVal,collection[i]));
+    if(Object.prototype.toString.call(collection) === '[object Array]'){
+      for(var i = 0; i < collection.length; i++,initVal = 0){
+        reduceResult += (iterator(initVal,collection[i]));
+      }
+    }
+    else if(Object.prototype.toString.call(collection) !== '[object Array]'){
+      for(var key in collection){
+        reduceResult += iterator(initVal,collection[key]);
+      }
     }
     if(reduceResult == 0){
       return false;
