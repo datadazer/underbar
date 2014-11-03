@@ -194,7 +194,15 @@ var _ = {};
     for(var i = 0; i < collection.length; i++,initVal = 0){
       reduceResult += (iterator(initVal,collection[i]));
     }
-    return reduceResult;
+    if(reduceResult == 0){
+      return false;
+    }
+    else if(reduceResult == 1){
+      return true;
+    }
+    else {
+      return reduceResult;
+    }
   };
 
   // Determine if the array or object contains a given value (using `===`).
