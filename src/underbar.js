@@ -156,8 +156,16 @@ var _ = {};
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
     var invokeResult = [];
-    for(var i = 0; i < collection.length; i++){
-      invokeResult.push(functionOrKey.apply(collection[i]));
+    if(typeof functionOrKey === 'function'){
+      for(var i = 0; i < collection.length; i++){
+        invokeResult.push(functionOrKey.apply(collection[i]));
+      }
+    }
+    else{
+      var refFunction = window[functionOrKey];
+      for(var i = 0; i < collection.length; i++){
+        invokeResult.push(collection[i].refFunction);
+      }
     }
     return invokeResult;
   };
@@ -176,9 +184,15 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    if(accumulator == undefined){
+      var initVal = collection[0];
+    }
+    else{
+      initVal = accumulator;
+    }
     var reduceResult = 0;
-    for(var i = 0; i < collection.length; i++){
-      reduceResult += (iterator(accumulator,collection[i]));
+    for(var i = 0; i < collection.length; i++,initVal = 0){
+      reduceResult += (iterator(initVal,collection[i]));
     }
     return reduceResult;
   };
