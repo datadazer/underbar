@@ -220,7 +220,12 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    return _.reduce(collection,iterator);
+    if(0 === _.reduce(collection,iterator)){
+      return true;
+    }
+    else {
+      return false;
+    }
     // TIP: Try re-using reduce() here.
   };
 
