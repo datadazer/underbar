@@ -162,12 +162,13 @@ var _ = {};
       }
     }
     else{
-      var refFunction = window[functionOrKey];
-      for(var i = 0; i < collection.length; i++){
-        invokeResult.push(collection[i].refFunction);
+      var myFunc = String.prototype[functionOrKey];
+      for (var i = 0; i < collection.length; i++){
+        invokeResult.push(myFunc.apply(collection[i]));
       }
     }
     return invokeResult;
+
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -201,15 +202,7 @@ var _ = {};
         reduceResult += iterator(initVal,collection[key]);
       }
     }
-    if(reduceResult == 0){
-      return false;
-    }
-    else if(reduceResult == 1){
-      return true;
-    }
-    else {
       return reduceResult;
-    }
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -227,6 +220,7 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    return _.reduce(collection,iterator);
     // TIP: Try re-using reduce() here.
   };
 
