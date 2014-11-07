@@ -194,7 +194,7 @@ var _ = {};
     }
     if(Object.prototype.toString.call(collection) === '[object Array]'){
       for(var i = 0; i < collection.length; i++,initVal = 0){
-        reduceResult += (iterator(initVal,collection[i]));
+        reduceResult += (iterator(initVal, collection[i]));
       }
     }
     else if(Object.prototype.toString.call(collection) !== '[object Array]'){
@@ -202,6 +202,13 @@ var _ = {};
         reduceResult += iterator(initVal,collection[key]);
       }
     }
+      if (reduceResult == 1){
+        return true;
+      }
+      else if (reduceResult == 0){
+        return false;
+      }
+      else
       return reduceResult;
   };
 
@@ -220,14 +227,25 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    if(0 === _.reduce(collection,iterator)){
+    if(collection.length < 1){
       return true;
     }
-    else {
-      return false;
+    else{
+      return _.reduce(collection, function(isEqualTo, item) {
+        if(isEqualTo){
+          return true;
+        }
+        else if(isEqualTo !== item){
+          return false;
+        }
+        else{
+          return false;
+        }
+      });
     }
+  }
+
     // TIP: Try re-using reduce() here.
-  };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
