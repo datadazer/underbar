@@ -195,6 +195,9 @@ var _ = {};
     if(Object.prototype.toString.call(collection) === '[object Array]'){
       for(var i = 0; i < collection.length; i++,initVal = 0){
         reduceResult += (iterator(initVal, collection[i]));
+        if(collection[i] == false){
+          return false;
+        }
       }
     }
     else if(Object.prototype.toString.call(collection) !== '[object Array]'){
