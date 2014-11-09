@@ -192,17 +192,36 @@ var _ = {};
     else{
       initVal = accumulator;
     }
-    if(Object.prototype.toString.call(collection) === '[object Array]'){
+    if(Array.isArray(collection)/*Object.prototype.toString.call(collection) === '[object Array]'*/ && typeof iterator == 'function'){
       for(var i = 0; i < collection.length; i++,initVal = 0){
-        reduceResult += (iterator(initVal, collection[i]));
-        if(collection[i] == false){
-          return false;
+        if(iterator.length == 2){
+          reduceResult += iterator(initVal, collection[i]);
+        }
+        else {
+          var reduceTruthTest = iterator(collection[i]) ? true : false;
+          if(reduceTruthTest){
+            reduceResult++;
+          }
+          else{
+          reduceResult += iterator(collection[i]);
+          }
         }
       }
     }
-    else if(Object.prototype.toString.call(collection) !== '[object Array]'){
+
+    else if(!Array.isArray(collection)){//Object.prototype.toString.call(collection) !== '[object Array]'){
       for(var key in collection){
         reduceResult += iterator(initVal,collection[key]);
+      }
+    }
+    else if(Array.isArray(collection)/*Object.prototype.toString.call(collection === '[object Array]'*/ && typeof iterator != 'function'){
+      for(var i = 0; i < collection.length; i++,initVal = 0){
+        if(iterator.length == 2){
+          reduceResult += (iterator(initVal,collection[i]));
+          }
+        else{
+          reduceResult += (iterator(collection[i]));
+        }
       }
     }
       if (reduceResult == 1){
@@ -233,6 +252,19 @@ var _ = {};
     if(collection.length < 1){
       return true;
     }
+    else if(iterator != null){
+      var everyResult = _.reduce(collection, iterator);
+      if(everyResult === false || everyResult === true){
+        return everyResult ? true : false;
+      }
+      var truthTest = everyResult%collection.length;
+      if(truthTest == 0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
     else{
       return _.reduce(collection, function(isEqualTo, item) {
         if(isEqualTo){
@@ -246,7 +278,7 @@ var _ = {};
         }
       });
     }
-  }
+  };
 
     // TIP: Try re-using reduce() here.
 
