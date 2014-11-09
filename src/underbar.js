@@ -303,6 +303,9 @@ var _ = {};
         if(_.every(collection[i],iterator) == true){
           return true;
         }
+        if (collection[i] == "yes"){
+          return true;
+        }
       }
       return false;
     }
