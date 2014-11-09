@@ -249,6 +249,9 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    if(collection == null){
+      return false;
+    }
     if(collection.length < 1){
       return true;
     }
@@ -285,6 +288,22 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    var someTest = 0;
+    var someResult = 0;
+    if (collection.length < 1){
+      return false;
+    }
+    if (_.every(collection,iterator) === true){
+      return _.every(collection,iterator);
+    }
+    else{
+      for(var i = 0; i < collection.length; i++){
+        if(_.every(collection[i],iterator) == true){
+          return true;
+        }
+      }
+      return false;
+    }
     // TIP: There's a very clever way to re-use every() here.
   };
 
