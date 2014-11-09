@@ -332,7 +332,7 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var extendResult = {};
+    var extendResult = obj;
     for(var i = 0; i < arguments.length; i++){
       for(var attrName in arguments[i]){
         if (attrName == null){
