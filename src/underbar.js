@@ -186,6 +186,8 @@ var _ = {};
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
     var reduceResult = 0;
+    if(collection === true){return true}
+    if(collection === false){return false}
     if(accumulator == undefined){
       var initVal = collection[0];
     }
@@ -294,7 +296,7 @@ var _ = {};
       return false;
     }
     if (_.every(collection,iterator) === true){
-      return _.every(collection,iterator);
+      return true;
     }
     else{
       for(var i = 0; i < collection.length; i++){
