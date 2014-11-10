@@ -405,16 +405,13 @@ var _ = {};
     var alreadyCalled = false;
     var argsUsed = false;
     var memoizeResult;
-    return function(){
-      if(!alreadyCalled && !argsUsed){
-        memoizeResult = func.apply(this,arguments);
-        alreadyCalled = true;
-      }
-      else if(alreadyCalled && !argsUsed){
-        memoizeResult = func.apply(this,arguments);
-        argsUsed = true;
-      }
-      return memoizeResult;
+    var memo = {};
+    return function() {
+      if (arguments in memo)
+        return memo[arguments];
+      else
+        return (memo[arguments] = func.apply(this, arguments));
+
     }
   };
 
