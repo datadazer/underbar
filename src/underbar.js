@@ -402,6 +402,19 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalled = false;
+    var argsUsed = false;
+    var memoizeResult;
+    return function(){
+      if(!alreadyCalled){
+        memoizeResult = func.apply(this,arguments);
+        alreadyCalled = true;
+      }
+      else if(alreadyCalled && memoizeResult.arguments == func.arguments){
+        memoizeResult = func.apply(this,arguments);
+      }
+      return memoizeResult;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
