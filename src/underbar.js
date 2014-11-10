@@ -406,12 +406,13 @@ var _ = {};
     var argsUsed = false;
     var memoizeResult;
     return function(){
-      if(!alreadyCalled){
+      if(!alreadyCalled && !argsUsed){
         memoizeResult = func.apply(this,arguments);
         alreadyCalled = true;
       }
-      else if(alreadyCalled && memoizeResult.arguments == func.arguments){
+      else if(alreadyCalled && !argsUsed){
         memoizeResult = func.apply(this,arguments);
+        argsUsed = true;
       }
       return memoizeResult;
     }
@@ -424,6 +425,9 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    setTimeout(function(){
+      func(func.arguments);
+    },wait);
   };
 
 
