@@ -336,7 +336,7 @@ var _ = {};
     for(var i = 0; i < arguments.length; i++){
       for(var attrName in arguments[i]){
         if (attrName == null){
-          return "here";
+          return "oops";
         }
         else{
         extendResult[attrName] = arguments[i][attrName];
@@ -349,6 +349,18 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var defaultResult = obj;
+    for(var i = 0; i < arguments.length; i++){
+      for(var attrName in arguments[i]){
+        if (defaultResult.hasOwnProperty(attrName)){
+          defaultResult[attrName] = defaultResult[attrName]
+        }
+        if (defaultResult.hasOwnProperty(attrName) == false){
+          defaultResult[attrName] = arguments[i][attrName];
+        }
+      }
+    }
+    return defaultResult;
   };
 
 
