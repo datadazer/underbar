@@ -401,23 +401,23 @@ var _ = {};
   // _.memoize should return a function that when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-var indexer = {};
+
   _.memoize = function(func) {
     var alreadyCalled = false;
     var argsUsed = false;
     var memoizeResult;
     var memo = {};
-    
+    var indexer = {};
     return function() {
-      if ((indexer != 0 || null) && indexer.valueOf(arguments))
+      if (memo.hasOwnProperty(arguments[0])) 
        {
-          return memo[arguments];// = func.apply(this, arguments);
+          return memo[arguments[0]];// = func.apply(this, arguments);
       }
       else
-       {
-         indexer[arguments] = arguments;
-          memo = func.apply(this, arguments);
-          return memo;
+       {      
+           
+          memo[arguments[0]] = func.apply(this, arguments);
+          return memo[arguments[0]];
        }
     }
   };
